@@ -64,7 +64,7 @@ const request = (url, method = 'GET', visited = new Set()) =>
         {
           method,
           headers: {
-            'User-Agent': 'BraveBoy-MD-Updater/1.0',
+            'User-Agent': 'ProBoy-MD-Updater/1.0',
             'Accept': '*/*'
           }
         },
