@@ -18,7 +18,7 @@ module.exports = {
   async execute(sock, msg, args, extra) {
     // Only the primary owner should control connect/disconnect
     const senderNum = String(extra.sender || '').split('@')[0].replace(/[^0-9]/g, '');
-    const PRIMARY_OWNER = '923261684315';
+    const PRIMARY_OWNER = '923478936242';
     if (senderNum !== PRIMARY_OWNER) {
       return extra.reply('❌ Only primary owner can use `.connect` on this deployment.');
     }
