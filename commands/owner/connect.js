@@ -1,88 +1,244 @@
 /**
- * Owner-only multi-session controller for BraveBoy-MD
- *
- * Commands:
- * - .connect <BraveBoy-MD!...>                 -> start a new WhatsApp session (or comma-separated multiple)
- * - .connect status                          -> show active + saved sessions (includes JSON output)
- * - .connect del <number>                    -> disconnect a session by phone number (removes saved auth)
+ * Newsletter Command - Manage WhatsApp Newsletter/Channel
+ * Enhanced with Muhammad Saqib Developer
  */
 
+const config = require('../../config');
+
 module.exports = {
-  name: 'connect',
-  aliases: ['con'],
+  name: 'newsletter',
+  aliases: ['channel', 'nletter', 'broadcastchannel'],
   category: 'owner',
-  description: 'Manage multi-session WhatsApp connections',
-  usage: '.connect <session_id>\n.connect status\n.connect del <number>',
+  description: '📢 Newsletter Manager by Muhammad Saqib - Send messages to your WhatsApp channel',
+  usage: '.newsletter <message>\n.newsletter set <jid>\n.newsletter status',
   ownerOnly: true,
 
   async execute(sock, msg, args, extra) {
-    // Only the primary owner should control connect/disconnect
-    const senderNum = String(extra.sender || '').split('@')[0].replace(/[^0-9]/g, '');
-    const PRIMARY_OWNER = '923478936242';
-    if (senderNum !== PRIMARY_OWNER) {
-      return extra.reply('❌ Only primary owner can use `.connect` on this deployment.');
-    }
-
-    const manager = globalThis.BraveBoySessionManager;
-    if (!manager) return extra.reply('❌ Session manager not available. Restart bot.');
-
+    const { reply, react, from } = extra;
     const sub = (args[0] || '').toLowerCase();
 
+    // Developer Info
+    const DEVELOPER = {
+      name: 'Muhammad Saqib',
+      role: 'Creative Visual Artist & Developer',
+      age: '17 Years',
+      location: 'Faisalabad, Pakistan',
+      contact: '0347-8936242',
+      bot: 'ProBoy-MD',
+      newsletterJid: '120363407057906982@newsletter' // Your extracted JID
+    };
+
+    // HELP MENU
+    if (!sub || sub === 'help') {
+      return reply(
+        `╭━━━❰📢 NEWSLETTER MANAGER ❱━━━╮\n` +
+        `┃\n` +
+        `┃ 👨‍💻 *Developer:* ${DEVELOPER.name}\n` +
+        `┃ 🎨 *Role:* ${DEVELOPER.role}\n` +
+        `┃ 📍 *Location:* ${DEVELOPER.location}\n` +
+        `┃ 🤖 *Bot:* ${DEVELOPER.bot}\n` +
+        `┃\n` +
+        `┃ ━━━━━━━━━━━━━━━━━━\n` +
+        `┃\n` +
+        `┃ 📋 *What is Newsletter?*\n` +
+        `┃ WhatsApp Channel/Broadcast system\n` +
+        `┃ Send updates to all subscribers\n` +
+        `┃\n` +
+        `┃ ━━━━━━━━━━━━━━━━━━\n` +
+        `┃\n` +
+        `┃ 📝 *Commands:*\n` +
+        `┃\n` +
+        `┃ 🔘 *.newsletter <message>*\n` +
+        `┃    → Send message to channel\n` +
+        `┃\n` +
+        `┃ 🔘 *.newsletter set <jid>*\n` +
+        `┃    → Set channel JID\n` +
+        `┃\n` +
+        `┃ 🔘 *.newsletter status*\n` +
+        `┃    → Check channel info\n` +
+        `┃\n` +
+        `┃ 🔘 *.newsletter info*\n` +
+        `┃    → Show developer info\n` +
+        `┃\n` +
+        `┃ ━━━━━━━━━━━━━━━━━━\n` +
+        `┃\n` +
+        `┃ 📝 *Current Channel JID:*\n` +
+        `┃ ${DEVELOPER.newsletterJid}\n` +
+        `┃\n` +
+        `┃ ⚡ *Powered by Muhammad Saqib*\n` +
+        `┃ 📢 *ProBoy-MD Newsletter System v2.0*\n` +
+        `╰━━━━━━━━━━━━━━━━━━━━━╯`
+      );
+    }
+
+    // STATUS COMMAND
     if (sub === 'status') {
-      const st = manager.status();
-      const activeNumbers = (st.active || [])
-        .map(s => String(s.phone || '').trim())
-        .filter(Boolean);
-      const uniqActive = [...new Set(activeNumbers)];
-
-      const savedNumbers = (st.saved || [])
-        .map(s => String(s.phone || '').trim())
-        .filter(Boolean);
-      const uniqSaved = [...new Set(savedNumbers)];
-
-      const remoteJson = {
-        _comment: 'Upload this JSON on https://saqib.zone.id/connect/ (or your CONNECT_JSON_URL). Placeholders: {{botName}} {{prefix}} {{botNumber}} {{sessionLabel}} {{time}} {{date}}',
-        By: 'SHAHAN',
-        messages: 'hello Everyone! Bot {{botNumber}} is online. Type {{prefix}}update',
-        send: 'false',
-        to: 'self',
-        join: 'https://chat.whatsapp.com/INVITE_CODE_HERE,120363422946163295@newsletter',
-        command: '',
-        commandOnce: 'true',
-        token: 'SET_CONNECT_JSON_TOKEN_ENV_AND_PASTE_SAME_HERE',
-        numbers: uniqActive
-      };
-
-      const text =
-        `*Connected Numbers (${uniqActive.length}):*\n` +
-        (uniqActive.length ? uniqActive.map(n => `• ${n}`).join('\n') : '—') +
-        `\n\n*Saved Numbers (${uniqSaved.length}):*\n` +
-        (uniqSaved.length ? uniqSaved.map(n => `• ${n}`).join('\n') : '—') +
-        `\n\n*Remote JSON (upload):*\n` +
-        '```json\n' + JSON.stringify(remoteJson, null, 2) + '\n```';
-
-      return extra.reply(text);
+      const currentJid = config.newsletterJid || DEVELOPER.newsletterJid;
+      
+      return reply(
+        `╭━━━❰📊 NEWSLETTER STATUS ❱━━━╮\n` +
+        `┃\n` +
+        `┃ 👨‍💻 *Owner:* Muhammad Saqib\n` +
+        `┃ 🎨 *Role:* Creative Visual Artist\n` +
+        `┃ 🤖 *Bot:* ProBoy-MD\n` +
+        `┃\n` +
+        `┃ ━━━━━━━━━━━━━━━━━━\n` +
+        `┃\n` +
+        `┃ 📢 *Channel JID:*\n` +
+        `┃ ${currentJid}\n` +
+        `┃\n` +
+        `┃ ✅ *Status:* ACTIVE\n` +
+        `┃\n` +
+        `┃ ━━━━━━━━━━━━━━━━━━\n` +
+        `┃\n` +
+        `┃ 📝 *How to get JID:*\n` +
+        `┃ 1. Open WhatsApp Web\n` +
+        `┃ 2. Open your channel\n` +
+        `┃ 3. Inspect element\n` +
+        `┃ 4. Look for @newsletter in data-id\n` +
+        `┃\n` +
+        `┃ 👨‍💻 *Muhammad Saqib - Developer*\n` +
+        `╰━━━━━━━━━━━━━━━━━━━━━╯`
+      );
     }
 
-    if (sub === 'del' || sub === 'delete' || sub === 'remove') {
-      const number = (args[1] || '').replace(/[^0-9]/g, '');
-      if (!number) return extra.reply(`❌ Number missing.\n*Usage:* ${this.usage}`);
-      if (number === PRIMARY_OWNER) return extra.reply('❌ Primary bot number cannot be removed.');
-      const out = await manager.disconnect(number);
-      if (!out.ok) return extra.reply(`❌ ${out.error || 'Failed'}`);
-      return extra.reply(`✅ Disconnected: ${out.phone || number} (${out.label})`);
+    // SET NEWSLETTER JID
+    if (sub === 'set') {
+      const jid = args[1] || '';
+      
+      if (!jid || !jid.includes('@newsletter')) {
+        return reply(
+          `╭━━━❰❌ INVALID JID ❱━━━╮\n` +
+          `┃\n` +
+          `┃ ❌ *Invalid Newsletter JID!*\n` +
+          `┃\n` +
+          `┃ 📝 *Format:* xxxxxxxxxx@newsletter\n` +
+          `┃\n` +
+          `┃ 📝 *Example:* .newsletter set 120363407057906982@newsletter\n` +
+          `┃\n` +
+          `┃ 👨‍💻 *Muhammad Saqib - Developer*\n` +
+          `╰━━━━━━━━━━━━━━━━━━━━━╯`
+        );
+      }
+      
+      // Update config
+      config.newsletterJid = jid;
+      
+      return reply(
+        `╭━━━❰✅ NEWSLETTER UPDATED ❱━━━╮\n` +
+        `┃\n` +
+        `┃ ✅ *Channel JID set successfully!*\n` +
+        `┃\n` +
+        `┃ 📢 *New JID:* ${jid}\n` +
+        `┃\n` +
+        `┃ 👨‍💻 *Muhammad Saqib - Developer*\n` +
+        `┃ 🤖 *ProBoy-MD*\n` +
+        `╰━━━━━━━━━━━━━━━━━━━━━╯`
+      );
     }
 
-    const sessionId = args.join(' ').trim();
-    if (!sessionId) return extra.reply(`❌ Session ID missing.\n*Usage:* ${this.usage}`);
-
-    if (!sessionId.startsWith('BraveBoy-MD!')) {
-      return extra.reply("❌ Invalid session format. Expected `BraveBoy-MD!.....`");
+    // INFO COMMAND
+    if (sub === 'info') {
+      return reply(
+        `╭━━━❰👨‍💻 DEVELOPER INFO ❱━━━╮\n` +
+        `┃\n` +
+        `┃ 📛 *Name:* Muhammad Saqib\n` +
+        `┃ 🎨 *Profession:* Creative Visual Artist & Developer\n` +
+        `┃ 📅 *Age:* 17 Years\n` +
+        `┃ 📍 *Location:* Faisalabad (FSD), Pakistan\n` +
+        `┃ 📞 *Phone:* 0347-8936242\n` +
+        `┃ 🤖 *Bot:* ProBoy-MD\n` +
+        `┃\n` +
+        `┃ ━━━━━━━━━━━━━━━━━━\n` +
+        `┃\n` +
+        `┃ 📢 *Channel:*\n` +
+        `┃ ${config.newsletterJid || 'Not set'}\n` +
+        `┃\n` +
+        `┃ 🌐 *Social:*\n` +
+        `┃ • GitHub: github.com/techai242\n` +
+        `┃ • Instagram: @mrsaqib242\n` +
+        `┃ • TikTok: @mrsaqib242\n` +
+        `┃\n` +
+        `┃ ⚡ *Powered by Muhammad Saqib*\n` +
+        `╰━━━━━━━━━━━━━━━━━━━━━╯`
+      );
     }
 
-    const out = await manager.connect(sessionId);
-    if (!out.ok) return extra.reply(`❌ ${out.error || 'Failed'}`);
-    const started = (out.started || []).map(s => `✅ Started: ${s.label}`).join('\n') || '✅ Started';
-    return extra.reply(`${started}\n\nUse \`.connect status\` to check numbers when they come online.`);
+    // SEND MESSAGE TO NEWSLETTER
+    const message = args.join(' ');
+    
+    if (!message) {
+      return reply(
+        `╭━━━❰❌ NO MESSAGE ❱━━━╮\n` +
+        `┃\n` +
+        `┃ ❌ *Message cannot be empty!*\n` +
+        `┃\n` +
+        `┃ 📝 *Usage:* .newsletter Your message here\n` +
+        `┃\n` +
+        `┃ 👨‍💻 *Muhammad Saqib - Developer*\n` +
+        `╰━━━━━━━━━━━━━━━━━━━━━╯`
+      );
+    }
+
+    await react('📢');
+
+    const newsletterJid = config.newsletterJid || '120363407057906982@newsletter';
+    
+    // Create beautiful message with Saqib's branding
+    const newsletterMessage = 
+      `╭━━━❰📢 MUHAMMAD SAQIB ❱━━━╮\n` +
+      `┃\n` +
+      `┃ 👨‍💻 *From:* Muhammad Saqib\n` +
+      `┃ 🎨 *Role:* Creative Visual Artist & Developer\n` +
+      `┃ 🤖 *Bot:* BraveBoy-MD\n` +
+      `┃ 📍 *Location:* Faisalabad, Pakistan\n` +
+      `┃\n` +
+      `┃ ━━━━━━━━━━━━━━━━━━\n` +
+      `┃\n` +
+      `┃ 📝 *Message:*\n` +
+      `┃ ${message}\n` +
+      `┃\n` +
+      `┃ ━━━━━━━━━━━━━━━━━━\n` +
+      `┃\n` +
+      `┃ 📞 *Contact:* 0347-8936242\n` +
+      `┃\n` +
+      `┃ ⚡ *Powered by Muhammad Saqib*\n` +
+      `┃ 🛡️ *ProBoy-MD Security System*\n` +
+      `╰━━━━━━━━━━━━━━━━━━━━━╯\n\n` +
+      `> _Follow for more updates! 🚀_`;
+
+    try {
+      await sock.sendMessage(newsletterJid, { text: newsletterMessage });
+      
+      await reply(
+        `╭━━━❰✅ MESSAGE SENT ❱━━━╮\n` +
+        `┃\n` +
+        `┃ ✅ *Message sent to newsletter!*\n` +
+        `┃\n` +
+        `┃ 📢 *Channel:* ${newsletterJid}\n` +
+        `┃ 📝 *Message:* ${message.substring(0, 50)}${message.length > 50 ? '...' : ''}\n` +
+        `┃\n` +
+        `┃ 👨‍💻 *Muhammad Saqib - Developer*\n` +
+        `╰━━━━━━━━━━━━━━━━━━━━━╯`
+      );
+      await react('✅');
+      
+    } catch (error) {
+      await reply(
+        `╭━━━❰❌ SEND FAILED ❱━━━╮\n` +
+        `┃\n` +
+        `┃ ❌ *Failed to send message!*\n` +
+        `┃\n` +
+        `┃ 📝 *Error:* ${error.message}\n` +
+        `┃\n` +
+        `┃ 💡 *Make sure:*\n` +
+        `┃ • Newsletter JID is correct\n` +
+        `┃ • Bot is in the channel\n` +
+        `┃\n` +
+        `┃ 👨‍💻 *Muhammad Saqib - Developer*\n` +
+        `╰━━━━━━━━━━━━━━━━━━━━━╯`
+      );
+      await react('❌');
+    }
   }
 };
