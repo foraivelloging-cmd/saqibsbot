@@ -57,7 +57,7 @@ module.exports = {
 
       const displayOwner = ownerNames[0] || config.ownerName || 'Bot Owner';
 
-      // menu configurtion from proboy
+      // menu configurtion from saqib
 
       let menuText = `${ui.headerLine('Menu')}\n\n`;
       menuText += `👑 Owner: ${displayOwner}\n`;

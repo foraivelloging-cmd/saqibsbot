@@ -1,1 +1,18 @@
-{\n  \"name\": \"BraveBoy-Md\",\n  \"repository\": \"https://github.com/foraivelloging-cmd/saqibsbot\",\n  \"SESSION_ID\": \"BraveBoy-MD!...\"\n}
+{
+  "name": "Saqib-Md",
+  "description": "WhatsApp MD bot (Baileys)",
+  "repository": "https://github.com/foraivelloging-cmd/saqibsbot",
+  "keywords": ["whatsapp", "baileys", "bot", "node"],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
+    }
+  ],
+  "env": {
+    "SESSION_ID": {
+      "description": "Saqib-MD session string (e.g. Saqib-MD!<base64_compressed_data>)",
+      "required": true,
+      "value": ""
+    }
+  }
+}

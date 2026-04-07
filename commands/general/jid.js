@@ -43,7 +43,7 @@ module.exports = {
       // Send interactive message with copy button
       await sendInteractiveMessage(sock, from, {
         text: box,
-        footer: 'ProBoy‑MD',
+        footer: 'Saqib‑MD',
         interactiveButtons: [
           {
             name: 'copy',

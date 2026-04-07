@@ -1,5 +1,5 @@
 /**
- * Simple Message Saver Plugin for ProBoy‑MD
+ * Simple Message Saver Plugin for Saqib‑MD
  *
  * Usage: Reply to any message with .save
  * The bot will resend that message (text/media) to the current chat.
@@ -54,7 +54,7 @@ module.exports = {
           if (buffer && Buffer.isBuffer(buffer) && buffer.length > 0) {
             // Save to temp file
             const ext = guessExt(msgType, quoted[msgType]?.mimetype, quoted[msgType]?.fileName);
-            const tempFile = path.join(tmpdir(), `proboy_save_${Date.now()}.${ext}`);
+            const tempFile = path.join(tmpdir(), `saqib_save_${Date.now()}.${ext}`);
             fs.writeFileSync(tempFile, buffer);
 
             const caption = quoted[msgType]?.caption || '';

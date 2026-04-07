@@ -1,5 +1,5 @@
 /**
- * Pair Command for ProBoy‑MD
+ * Pair Command for Saqib‑MD
  * Generates a WhatsApp pairing code using an external API.
  * Includes wait message, retry logic, and a copy button.
  */
@@ -39,7 +39,7 @@ module.exports = {
       const waitKey = waitMsg.key;
 
       // Build API URL
-      const apiUrl = `https://proboy-pair.onrender.com/pair?number=${encodeURIComponent(cleaned)}`;
+      const apiUrl = `https://saqib-pair.onrender.com/pair?number=${encodeURIComponent(cleaned)}`;
 
       // Attempt the request with retry (2 attempts, longer timeout)
       let pairCode = null;
@@ -75,7 +75,7 @@ module.exports = {
       // Send interactive message with copy button
       await sendInteractiveMessage(sock, from, {
         text: `✅ *Pair Code Generated Successfully!*\n\nYour pair code is:\n\n\`${pairCode}\`\n\nTap the button below to copy it.`,
-        footer: 'ProBoy‑MD',
+        footer: 'Saqib‑MD',
         interactiveButtons: [
           {
             name: 'cta_copy',

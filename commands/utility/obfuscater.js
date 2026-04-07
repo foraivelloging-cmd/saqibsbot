@@ -1,5 +1,5 @@
 /**
- * Obfuscator Plugin for ProBoy‑MD
+ * Obfuscator Plugin for Saqib‑MD
  * Obfuscates JavaScript code using PrinceTech API (encryptv3).
  * Accepts input from:
  *   - Text arguments

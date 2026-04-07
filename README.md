@@ -1,6 +1,6 @@
 # Project Title
 
-Welcome to BraveBoy! This project is managed by Saqib. You can visit our website at [saqib.zone.id](http://saqib.zone.id).
+Welcome to Saqib! This project is managed by Saqib. You can visit our website at [saqib.zone.id](http://saqib.zone.id).
 
 ## Contributors
 

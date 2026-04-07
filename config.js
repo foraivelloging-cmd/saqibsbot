@@ -8,17 +8,17 @@ module.exports = {
     ownerName: ['SHAHAN',], // Owner names corresponding to ownerNumber array
     
     // Bot Configuration
-    botName: 'ProBoy-MD',
+    botName: 'Saqib-MD',
     version: '3.0.2',
     prefix: '.',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '',
     newsletterJid: '120363422946163295@newsletter', // Newsletter JID for menu forwarding
-    updateZipUrl: 'https://github.com/proboy315/ProBoy-MD/archive/refs/heads/main.zip', // URL to latest code zip for .update command
+    updateZipUrl: 'https://github.com/saqib315/Saqib-MD/archive/refs/heads/main.zip', // URL to latest code zip for .update command
 
     
     // Sticker Configuration
-    packname: 'ProBoy-MD',
+    packname: 'Saqib-MD',
     
     // Bot Behavior
     selfMode: false, // Private mode - only owner can use commands
@@ -69,7 +69,7 @@ module.exports = {
       enabled: true,
       dest: 'chat', // 'chat' | 'owner' | '<jid>'
       statusDest: 'owner', // 'owner' | '<jid>'
-      bannerImageUrl: 'https://proboy.vercel.app/ForAntiDelete.JPG' // optional thumbnail URL for recovery banner
+      bannerImageUrl: 'https://saqib.zone.id/ForAntiDelete.JPG' // optional thumbnail URL for recovery banner
     },
     
     // API Keys (add your own)
@@ -105,8 +105,8 @@ module.exports = {
       someRandomApi: {
         baseUrl: process.env.SOME_RANDOM_API_BASE_URL || 'https://api.some-random-api.com'
       },
-      proboyPair: {
-        baseUrl: process.env.PROBOY_PAIR_BASE_URL || 'https://proboy-pair.onrender.com'
+      saqibPair: {
+        baseUrl: process.env.PROBOY_PAIR_BASE_URL || 'https://saqib-pair.onrender.com'
       },
       emojiKitchen: {
         baseUrl: process.env.EMOJI_KITCHEN_BASE_URL || 'https://www.gstatic.com/android/keyboard/emojikitchen/20201001'
@@ -220,10 +220,10 @@ module.exports = {
     
     // Social Links (optional)
     social: {
-      website: 'https://proboy.vercel.app',
-      github: 'https://github.com/proboy315',
-      instagram: 'https://instagram.com/itx___proboy',
-      Tiktok: 'https://tiktok.com/@itx_ProBoy'
+      website: 'https://saqib.zone.id',
+      github: 'https://github.com/saqib315',
+      instagram: 'https://instagram.com/itx___saqib',
+      Tiktok: 'https://tiktok.com/@itx_Saqib'
     }
 };
   
