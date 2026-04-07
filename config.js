@@ -4,8 +4,8 @@
 
 module.exports = {
     // Bot Owner Configuration
-    ownerNumber: ['923261684315'], // Add your number without + or spaces (e.g., 919876543210)
-    ownerName: ['SHAHAN',], // Owner names corresponding to ownerNumber array
+    ownerNumber: ['92478936242'], // Add your number without + or spaces (e.g., 919876543210)
+    ownerName: ['SAQIB',], // Owner names corresponding to ownerNumber array
     
     // Bot Configuration
     botName: 'BraveBoy-MD',
@@ -14,7 +14,7 @@ module.exports = {
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '',
     newsletterJid: '120363422946163295@newsletter', // Newsletter JID for menu forwarding
-    updateZipUrl: 'https://github.com/proboy315/BraveBoy-MD/archive/refs/heads/main.zip', // URL to latest code zip for .update command
+    updateZipUrl: 'https://github.com/foraivelloging-cmd/saqibsbot/archive/refs/heads/main.zip', // URL to latest code zip for .update command
 
     
     // Sticker Configuration
