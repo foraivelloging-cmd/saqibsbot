@@ -1,5 +1,5 @@
 /**
- * Antidelete Plugin for ProBoy‑MD
+ * Antidelete Plugin for BraveBoy‑MD
  *
  * Stores incoming messages (including media) so they can be re-sent if a user
  * deletes them "for everyone".
@@ -223,7 +223,7 @@ const buildBannerContextInfo = (sock, deleterJid, senderJid) => {
   const thumb = defaults.bannerImageUrl || '';
   if (!thumb) return undefined;
 
-  const websiteUrl = config.social?.website || 'https://proboy.vercel.app';
+  const websiteUrl = config.social?.website || 'https://saqib.zone.id';
   const deleterNum = deleterJid ? String(deleterJid).split('@')[0] : 'Unknown';
   const senderNum = senderJid ? String(senderJid).split('@')[0] : 'Unknown';
 

@@ -1,5 +1,5 @@
 /**
- * Simple Message Saver Plugin for ProBoy‑MD
+ * Simple Message Saver Plugin for BraveBoy‑MD
  *
  * Usage: Reply to any message with .save
  * The bot will resend that message (text/media) to the current chat.

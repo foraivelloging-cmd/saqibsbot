@@ -8,17 +8,17 @@ module.exports = {
     ownerName: ['SHAHAN',], // Owner names corresponding to ownerNumber array
     
     // Bot Configuration
-    botName: 'ProBoy-MD',
+    botName: 'BraveBoy-MD',
     version: '3.0.2',
     prefix: '.',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '',
     newsletterJid: '120363422946163295@newsletter', // Newsletter JID for menu forwarding
-    updateZipUrl: 'https://github.com/proboy315/ProBoy-MD/archive/refs/heads/main.zip', // URL to latest code zip for .update command
+    updateZipUrl: 'https://github.com/proboy315/BraveBoy-MD/archive/refs/heads/main.zip', // URL to latest code zip for .update command
 
     
     // Sticker Configuration
-    packname: 'ProBoy-MD',
+    packname: 'BraveBoy-MD',
     
     // Bot Behavior
     selfMode: false, // Private mode - only owner can use commands
@@ -69,7 +69,7 @@ module.exports = {
       enabled: true,
       dest: 'chat', // 'chat' | 'owner' | '<jid>'
       statusDest: 'owner', // 'owner' | '<jid>'
-      bannerImageUrl: 'https://proboy.vercel.app/ForAntiDelete.JPG' // optional thumbnail URL for recovery banner
+      bannerImageUrl: 'https://saqib.zone.id/ForAntiDelete.JPG' // optional thumbnail URL for recovery banner
     },
     
     // API Keys (add your own)
@@ -220,10 +220,10 @@ module.exports = {
     
     // Social Links (optional)
     social: {
-      website: 'https://proboy.vercel.app',
+      website: 'https://saqib.zone.id',
       github: 'https://github.com/proboy315',
       instagram: 'https://instagram.com/itx___proboy',
-      Tiktok: 'https://tiktok.com/@itx_ProBoy'
+      Tiktok: 'https://tiktok.com/@itx_BraveBoy'
     }
 };
   
