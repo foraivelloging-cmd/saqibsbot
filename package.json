@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "check:syntax": "git ls-files '*.js' | xargs -n 1 node --check"
   },
   "author": "SHAHAN",
   "license": "MIT",

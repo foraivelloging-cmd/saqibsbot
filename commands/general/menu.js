@@ -13,7 +13,7 @@ module.exports = {
 
   name: 'menu',
 
-  aliases: ['help', 'commands'],
+  aliases: ['help', 'commands', 'saqib'],
 
   category: 'general',
 
@@ -62,6 +62,7 @@ module.exports = {
       let menuText = `${ui.headerLine('Menu')}\n\n`;
       menuText += `👑 Owner: ${displayOwner}\n`;
       menuText += `👤 User: @${extra.sender.split('@')[0]}\n`;
+      menuText += `💬 Saqib Developer aya na k yr\n`;
       menuText += `⚡ Prefix: ${config.prefix}\n`;
       menuText += `🧩 Commands: ${commands.size}\n\n`;
 
