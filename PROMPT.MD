@@ -1,12 +1,12 @@
-# ProBoy‑MD Plugin Development Master Prompt (Repo‑Aligned)
+# BraveBoy‑MD Plugin Development Master Prompt (Repo‑Aligned)
 
-Use this document as a **single, all‑in‑one training prompt** for an AI (or a developer) to build **production‑ready ProBoy‑MD plugins** for this repository.
+Use this document as a **single, all‑in‑one training prompt** for an AI (or a developer) to build **production‑ready BraveBoy‑MD plugins** for this repository.
 
 This guide is aligned with the current codebase (`index.js`, `handler.js`, `database.js`, `config.js`, `commands/*`, `utils/*`).
 
 ---
 
-## 1) Project Architecture (How ProBoy‑MD Works)
+## 1) Project Architecture (How BraveBoy‑MD Works)
 
 - Entry point: `index.js`
   - Connects to WhatsApp via Baileys
@@ -111,13 +111,13 @@ Current `config.js` shape (as in this repo):
 module.exports = {
   ownerNumber: ['923261684315'],
   ownerName: ['SHAHAN'],
-  botName: 'ProBoy-MD',
+  botName: 'BraveBoy-MD',
   prefix: '.',
   sessionName: 'session',
   sessionID: process.env.SESSION_ID || '',
   newsletterJid: '120363422946163295@newsletter',
-  updateZipUrl: 'https://github.com/proboy315/ProBoy-MD/archive/refs/heads/main.zip',
-  packname: 'ProBoy-MD',
+  updateZipUrl: 'https://github.com/proboy315/BraveBoy-MD/archive/refs/heads/main.zip',
+  packname: 'BraveBoy-MD',
   selfMode: false,
   autoRead: false,
   autoTyping: true,
@@ -183,7 +183,7 @@ module.exports = {
   social: {
     github: 'https://github.com/proboy315',
     instagram: 'https://instagram.com/itx___proboy',
-    Tiktok: 'https://tiktok.com/@itx_ProBoy'
+    Tiktok: 'https://tiktok.com/@itx_BraveBoy'
   }
 };
 ```
@@ -207,7 +207,7 @@ const { sendInteractiveMessage } = require('gifted-btns');
 
 await sendInteractiveMessage(sock, extra.from, {
   text: 'Choose an option:',
-  footer: 'ProBoy‑MD',
+  footer: 'BraveBoy‑MD',
   interactiveButtons: [
     { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: 'Option A', id: 'mycmd:a' }) },
     { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: 'Option B', id: 'mycmd:b' }) }
@@ -305,7 +305,7 @@ When building new plugins, follow the same patterns:
 
 - Start the bot: `npm start`
 - Pairing/session:
-  - Bot supports Session ID format `ProBoy-MD!<base64gzip>`
+  - Bot supports Session ID format `BraveBoy-MD!<base64gzip>`
   - Bot also supports Pair Code flow (phone number → pairing code printed to terminal)
 - Database files live in: `./database/`
 

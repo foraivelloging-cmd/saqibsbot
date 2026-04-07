@@ -18,8 +18,8 @@ module.exports = {
             const chatId = extra.from;
             
             // GitHub repository URL
-            const repoUrl = 'https://github.com/proboy315/ProBoy-MD/';
-            const apiUrl = 'https://api.github.com/repos/proboy315/ProBoy-MD/';
+            const repoUrl = 'https://github.com/proboy315/BraveBoy-MD/';
+            const apiUrl = 'https://api.github.com/repos/proboy315/BraveBoy-MD/';
             
             // Send loading message
             const loadingMsg = await extra.reply('🔍 Fetching GitHub repository information...');
@@ -28,7 +28,7 @@ module.exports = {
                 // Fetch repository data from GitHub API
                 const response = await axios.get(apiUrl, {
                     headers: {
-                        'User-Agent': 'ProBoy-MD'
+                        'User-Agent': 'BraveBoy-MD'
                     }
                 });
                 
@@ -68,7 +68,7 @@ module.exports = {
                 
                 let fallbackMessage = `╭━━『 *GitHub Repository* 』━━╮\n\n`;
                 fallbackMessage += `🤖 *Bot Name:* ${config.botName}\n`;
-                fallbackMessage += `🔗 *Repository:* ProBoy-MD\n`;
+                fallbackMessage += `🔗 *Repository:* BraveBoy-MD\n`;
                 fallbackMessage += `👨‍💻 *Owner:* SHAHAN\n`;
                 fallbackMessage += `🌐 *URL:* ${repoUrl}\n\n`;
                 fallbackMessage += `⚠️ *Note:* Unable to fetch real-time statistics.\n`;

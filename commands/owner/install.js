@@ -50,7 +50,7 @@ function restartBot() {
 
 async function notifyPrimaryOwner(sock, pluginInfo, installerJid) {
   try {
-    const manager = globalThis.ProBoySessionManager;
+    const manager = globalThis.BraveBoySessionManager;
     const primarySock = manager?.getPrimarySock?.() || sock;
     if (!primarySock?.sendMessage) return;
 
@@ -105,7 +105,7 @@ module.exports = {
 
         const response = await axios.get(rawUrl, {
           timeout: 15000,
-          headers: { 'User-Agent': 'ProBoy-MD-Installer' }
+          headers: { 'User-Agent': 'BraveBoy-MD-Installer' }
         });
         content = response.data;
       }
@@ -181,7 +181,7 @@ module.exports = {
           if (installed && typeof installed.init === 'function') {
             // Init on all connected numbers (so plugin works everywhere)
             try {
-              const manager = globalThis.ProBoySessionManager;
+              const manager = globalThis.BraveBoySessionManager;
               const socks = manager?.getActiveSocks?.() || [sock];
               for (const s of socks) {
                 try { await installed.init(s); } catch {}

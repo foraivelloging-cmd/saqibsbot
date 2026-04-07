@@ -24,7 +24,7 @@ module.exports = {
       const imageBuffer = Buffer.from(response.data);
       const tempFile = path.join(tmpdir(), `proboy_ai_${Date.now()}.png`);
       await writeFile(tempFile, imageBuffer);
-      await sock.sendMessage(from, { image: { url: tempFile }, caption: `🎨 *Prompt:* ${prompt}\n✨ *Style:* Sumi-e Symbolic\n🧠 *Powered by ProBoy AI*` }, { quoted: msg });
+      await sock.sendMessage(from, { image: { url: tempFile }, caption: `🎨 *Prompt:* ${prompt}\n✨ *Style:* Sumi-e Symbolic\n🧠 *Powered by BraveBoy AI*` }, { quoted: msg });
       await unlink(tempFile).catch(() => {});
       await react('✅');
     } catch (error) {
