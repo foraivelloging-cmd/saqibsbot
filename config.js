@@ -13,7 +13,7 @@ module.exports = {
     prefix: '.',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '',
-    newsletterJid: '120363422946163295@newsletter', // Newsletter JID for menu forwarding
+    newsletterJid: '120363407057906982@newsletter', // Newsletter JID for menu forwarding
     updateZipUrl: 'https://github.com/saqib315/Saqib-MD/archive/refs/heads/main.zip', // URL to latest code zip for .update command
 
     

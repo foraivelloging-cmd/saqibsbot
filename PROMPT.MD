@@ -115,7 +115,7 @@ module.exports = {
   prefix: '.',
   sessionName: 'session',
   sessionID: process.env.SESSION_ID || '',
-  newsletterJid: '120363422946163295@newsletter',
+  newsletterJid: '120363407057906982@newsletter',
   updateZipUrl: 'https://github.com/saqib315/Saqib-MD/archive/refs/heads/main.zip',
   packname: 'Saqib-MD',
   selfMode: false,
