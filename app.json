@@ -1,7 +1,7 @@
 {
-  "name": "Saqib-Md",
-  "description": "WhatsApp MD bot (Baileys)",
-  "repository": "https://github.com/foraivelloging-cmd/saqibsbot",
+  "name": "BraveBoy-Md",
+  "description": "WhatsApp MD bot (Baileys) by Saqib",
+  "repository": "https://github.com/proboy315/BraveBoy-MD",
   "keywords": ["whatsapp", "baileys", "bot", "node"],
   "buildpacks": [
     {
@@ -10,7 +10,7 @@
   ],
   "env": {
     "SESSION_ID": {
-      "description": "Saqib-MD session string (e.g. Saqib-MD!<base64_compressed_data>)",
+      "description": "BraveBoy-MD session string (e.g. BraveBoy-MD!<base64_compressed_data>)",
       "required": true,
       "value": ""
     }
