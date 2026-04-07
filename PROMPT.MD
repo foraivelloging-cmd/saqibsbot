@@ -109,7 +109,7 @@ Current `config.js` shape (as in this repo):
 
 ```js
 module.exports = {
-  ownerNumber: ['923261684315'],
+  ownerNumber: ['923438673242'],
   ownerName: ['SHAHAN'],
   botName: 'Saqib-MD',
   prefix: '.',

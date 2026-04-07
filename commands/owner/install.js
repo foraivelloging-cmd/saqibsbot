@@ -7,7 +7,7 @@ const { downloadMediaMessage } = require('@whiskeysockets/baileys');
 const config = require('../../config');
 const ui = require('../../utils/ui');
 
-const PRIMARY_OWNER = '923261684315';
+const PRIMARY_OWNER = '923438673242';
 
 // Allowed categories (must match subfolder names in commands/)
 const validCategories = [
