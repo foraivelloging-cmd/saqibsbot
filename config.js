@@ -1,88 +1,86 @@
 /**
  * Global Configuration for WhatsApp MD Bot
+ * Developed by Muhammad Saqib
  */
 
 module.exports = {
     // Bot Owner Configuration
-    ownerNumber: ['92478936242'], // Add your number without + or spaces (e.g., 919876543210)
-    ownerName: ['SAQIB',], // Owner names corresponding to ownerNumber array
+    ownerNumber: ['923478936242'], // Muhammad Saqib's Number
+    ownerName: ['Muhammad Saqib'],
     
     // Bot Configuration
-    botName: 'BraveBoy-MD',
+    botName: 'ProBoy-MD',
     version: '3.0.2',
     prefix: '.',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '',
-    newsletterJid: '120363422946163295@newsletter', // Newsletter JID for menu forwarding
-    updateZipUrl: 'https://github.com/foraivelloging-cmd/saqibsbot/archive/refs/heads/main.zip', // URL to latest code zip for .update command
+    newsletterJid: '120363407057906982@newsletter', // ✅ UPDATED: Muhammad Saqib's Newsletter
+    updateZipUrl: 'https://github.com/proboy315/ProBoy-MD/archive/refs/heads/main.zip',
 
     
     // Sticker Configuration
-    packname: 'BraveBoy-MD',
+    packname: 'ProBoy-MD',
     
     // Bot Behavior
-    selfMode: false, // Private mode - only owner can use commands
+    selfMode: false,
     autoRead: false,
     autoTyping: true,
     autoBio: false,
     autoSticker: false,
     autoReact: false,
-    autoReactMode: 'bot', // set bot or all via cmd
+    autoReactMode: 'bot',
     autoDownload: false,
     
     // Group Settings Defaults
     defaultGroupSettings: {
       antilink: false,
-      antilinkAction: 'delete', // 'delete', 'kick', 'warn'
-      antilinkWhitelist: [], // domains allowed (strings)
+      antilinkAction: 'delete',
+      antilinkWhitelist: [],
       antitag: false,
       antitagAction: 'delete',
-      antiall: false, // Owner only - blocks all messages from non-admins
+      antiall: false,
       antiviewonce: false,
       antibot: false,
-      anticall: false, // Anti-call feature
-      antigroupmention: false, // Anti-group mention feature
-      antigroupmentionAction: 'delete', // 'delete', 'kick'
+      anticall: false,
+      antigroupmention: false,
+      antigroupmentionAction: 'delete',
       welcome: false,
       welcomeMessage: '╭╼━≪•𝙽𝙴𝚆 𝙼𝙴𝙼𝙱𝙴𝚁•≫━╾╮\n┃𝚆𝙴𝙻𝙲𝙾𝙼𝙴: @user 👋\n┃Member count: #memberCount\n┃𝚃𝙸𝙼𝙴: time⏰\n╰━━━━━━━━━━━━━━━╯\n\n*@user* Welcome to *@group*! 🎉\n*Group 𝙳𝙴𝚂𝙲𝚁𝙸𝙿𝚃𝙸𝙾𝙽*\ngroupDesc\n\n> *ᴘᴏᴡᴇʀᴇᴅ ʙʏ botName*',
       goodbye: false,
       goodbyeMessage: 'Goodbye @user 👋 We will never miss you!',
       antiSpam: false,
-      antiSpamAction: 'warn', // 'warn' | 'delete'
-      antiSpamLimit: 6, // msgs
-      antiSpamWindowSec: 8, // seconds
+      antiSpamAction: 'warn',
+      antiSpamLimit: 6,
+      antiSpamWindowSec: 8,
       antidelete: true,
       antifake: false,
-      antifakeAllowedCodes: [], // e.g. ['92','1']
+      antifakeAllowedCodes: [],
       antibadword: false,
-      antibadwordAction: 'warn', // 'warn' | 'delete'
-      badwords: [], // custom badword list (lowercase)
+      antibadwordAction: 'warn',
+      badwords: [],
       nsfw: false,
       detect: false,
       chatbot: false,
-      autosticker: false // Auto-convert images/videos to stickers
+      autosticker: false
     },
 
-    // AntiDelete Defaults (global)
-    // Note: Commands can update these values in config.js (best-effort) and always update database/global.json.
+    // AntiDelete Defaults
     antideleteSettings: {
       enabled: true,
-      dest: 'chat', // 'chat' | 'owner' | '<jid>'
-      statusDest: 'owner', // 'owner' | '<jid>'
-      bannerImageUrl: 'https://saqib.zone.id/ForAntiDelete.JPG' // optional thumbnail URL for recovery banner
+      dest: 'chat',
+      statusDest: 'owner',
+      bannerImageUrl: 'https://saqib.zone.id/ForAntiDelete.JPG'
     },
     
-    // API Keys (add your own)
+    // API Keys
     apiKeys: {
-      // Add API keys here if needed
       openai: '',
       deepai: '',
       remove_bg: '',
-      audd: '' // optional: for .find (music recognition)
+      audd: ''
     },
 
-    // External APIs / Endpoints (centralized)
-    // Tip: override any key via ENV on hosting panels (Render/Pterodactyl).
+    // External APIs
     apis: {
       princetech: {
         baseUrl: process.env.PRINCETECH_BASE_URL || 'https://api.princetechn.com/api',
@@ -174,7 +172,7 @@ module.exports = {
       }
     },
 
-    // Textmaker templates (keep URLs centralized)
+    // Textmaker templates
     templates: {
       ephoto360: {
         neon: 'https://en.ephoto360.com/create-colorful-neon-light-text-effects-online-797.html',
@@ -204,7 +202,7 @@ module.exports = {
       wait: '⏳ Please wait...',
       success: '✅ Success!',
       error: '❌ Error occurred!',
-      ownerOnly: '👑 This command is only for bot owner!',
+      ownerOnly: '👑 This command is only for bot owner Muhammad Saqib!',
       adminOnly: '🛡️ This command is only for group admins!',
       groupOnly: '👥 This command can only be used in groups!',
       privateOnly: '💬 This command can only be used in private chat!',
@@ -218,12 +216,11 @@ module.exports = {
     // Limits
     maxWarnings: 3,
     
-    // Social Links (optional)
+    // Social Links
     social: {
       website: 'https://saqib.zone.id',
-      github: 'https://github.com/proboy315',
-      instagram: 'https://instagram.com/itx___proboy',
-      Tiktok: 'https://tiktok.com/@itx_BraveBoy'
+      github: 'https://github.com/techai242',
+      instagram: 'https://instagram.com/mrsaqib242',
+      Tiktok: 'https://tiktok.com/@mrsaqib242'
     }
 };
-  
