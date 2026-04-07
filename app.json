@@ -1,8 +1,13 @@
 {
-  "name": "BraveBoy-Md",
+  "name": "BraveBoy-MD",
   "description": "WhatsApp MD bot (Baileys) by Saqib",
-  "repository": "https://github.com/proboy315/BraveBoy-MD",
-  "keywords": ["whatsapp", "baileys", "bot", "node"],
+  "repository": "https://github.com/saqib315/BraveBoy-MD",
+  "keywords": [
+    "whatsapp",
+    "baileys",
+    "bot",
+    "node"
+  ],
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-nodejs.git"
