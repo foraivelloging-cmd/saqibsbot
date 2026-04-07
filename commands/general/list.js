@@ -58,7 +58,7 @@ module.exports = {
       menuText += `🌟 Bot Version: ${config.version || '1.0.0'}\n\n`;
       menuText += `📌 *Follow us:*\n`;
       menuText += `🔗 TikTok: ${config.social?.tiktok || 'https://www.tiktok.com/@itx_proboy/'}\n`;
-      menuText += `🔗 GitHub: ${config.social?.github || 'https://github.com/proboy315/BraveBoy-MD/'}\n`;
+      menuText += `🔗 GitHub: ${config.social?.github || 'https://github.com/proboy315/ProBoy-MD/'}\n`;
       menuText += `🔗 Channel: https://whatsapp.com/channel/0029Va90zAnIHphOuO8Msp3A\n`;
 
       // Try to send with bot image (like menu.js)

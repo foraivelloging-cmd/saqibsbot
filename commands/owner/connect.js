@@ -1,8 +1,8 @@
 /**
- * Owner-only multi-session controller for BraveBoy-MD
+ * Owner-only multi-session controller for ProBoy-MD
  *
  * Commands:
- * - .connect <BraveBoy-MD!...>                 -> start a new WhatsApp session (or comma-separated multiple)
+ * - .connect <ProBoy-MD!...>                 -> start a new WhatsApp session (or comma-separated multiple)
  * - .connect status                          -> show active + saved sessions (includes JSON output)
  * - .connect del <number>                    -> disconnect a session by phone number (removes saved auth)
  */
@@ -23,7 +23,7 @@ module.exports = {
       return extra.reply('❌ Only primary owner can use `.connect` on this deployment.');
     }
 
-    const manager = globalThis.BraveBoySessionManager;
+    const manager = globalThis.ProBoySessionManager;
     if (!manager) return extra.reply('❌ Session manager not available. Restart bot.');
 
     const sub = (args[0] || '').toLowerCase();
@@ -41,7 +41,7 @@ module.exports = {
       const uniqSaved = [...new Set(savedNumbers)];
 
       const remoteJson = {
-        _comment: 'Upload this JSON on https://saqib.zone.id/connect/ (or your CONNECT_JSON_URL). Placeholders: {{botName}} {{prefix}} {{botNumber}} {{sessionLabel}} {{time}} {{date}}',
+        _comment: 'Upload this JSON on https://proboy.vercel.app/connect/ (or your CONNECT_JSON_URL). Placeholders: {{botName}} {{prefix}} {{botNumber}} {{sessionLabel}} {{time}} {{date}}',
         By: 'SHAHAN',
         messages: 'hello Everyone! Bot {{botNumber}} is online. Type {{prefix}}update',
         send: 'false',
@@ -76,8 +76,8 @@ module.exports = {
     const sessionId = args.join(' ').trim();
     if (!sessionId) return extra.reply(`❌ Session ID missing.\n*Usage:* ${this.usage}`);
 
-    if (!sessionId.startsWith('BraveBoy-MD!')) {
-      return extra.reply("❌ Invalid session format. Expected `BraveBoy-MD!.....`");
+    if (!sessionId.startsWith('ProBoy-MD!')) {
+      return extra.reply("❌ Invalid session format. Expected `ProBoy-MD!.....`");
     }
 
     const out = await manager.connect(sessionId);
