@@ -1,5 +1,7 @@
 /**
  * Message Handler - Processes incoming messages and executes commands
+ * Enhanced by Muhammad Saqib - ProBoy-MD Developer
+ * Version: 3.0.0 - With AntiBot, AntiFake, AntiSpam, Newsletter Auto-Join
  */
 
 const config = require('./config');
@@ -10,6 +12,20 @@ const { jidDecode, jidEncode } = require('@whiskeysockets/baileys');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
+
+// Developer Info
+const DEVELOPER = {
+    name: 'Muhammad Saqib',
+    role: 'Creative Visual Artist & Developer',
+    age: '17 Years',
+    location: 'Faisalabad, Pakistan',
+    contact: '0347-8936242',
+    bot: 'ProBoy-MD',
+    newsletterJid: '120363407057906982@newsletter'
+};
+
+// Global spam tracker for anti-spam
+global.spamTracker = new Map();
 
 // Group metadata cache to prevent rate limiting
 const groupMetadataCache = new Map();
@@ -38,6 +54,221 @@ const getMessageContent = (msg) => {
   if (m.documentWithCaptionMessage) m = m.documentWithCaptionMessage.message;
   
   return m;
+};
+
+// ==================== NEWSLETTER AUTO-JOIN FUNCTION ====================
+/**
+ * Auto-join newsletter on bot start/pairing
+ * By Muhammad Saqib
+ */
+const autoJoinNewsletter = async (sock) => {
+    try {
+        const newsletterJid = config.newsletterJid || DEVELOPER.newsletterJid;
+        if (!newsletterJid) return;
+        
+        console.log(`📢 Attempting to join newsletter: ${newsletterJid}`);
+        
+        try {
+            await sock.newsletterFollow?.(newsletterJid);
+            console.log(`✅ Auto-joined newsletter: ${newsletterJid}`);
+            console.log(`👨‍💻 Channel Owner: ${DEVELOPER.name}`);
+        } catch (err) {
+            console.log(`⚠️ Could not auto-join newsletter: ${err.message}`);
+        }
+    } catch (error) {
+        console.log(`❌ Newsletter auto-join failed: ${error.message}`);
+    }
+};
+
+// ==================== ANTIBOT DETECTION FUNCTION ====================
+/**
+ * AntiBot Detection - Detect and remove bot accounts
+ * By Muhammad Saqib
+ */
+const handleAntiBot = async (sock, msg, groupMetadata) => {
+    try {
+        const from = msg.key.remoteJid;
+        const sender = msg.key.participant || msg.key.remoteJid;
+        const groupSettings = getDb(sock).getGroupSettings(from);
+        
+        if (!groupSettings.antibot) return;
+        if (!groupMetadata) return;
+        
+        // Check if sender is admin or owner
+        const senderIsAdmin = await isAdmin(sock, sender, from, groupMetadata);
+        const senderIsOwner = isOwner(sender);
+        if (senderIsAdmin || senderIsOwner) return;
+        
+        // Get sender name
+        let senderName = '';
+        try {
+            const contact = sock.store?.contacts?.[sender];
+            senderName = contact?.notify || contact?.name || '';
+        } catch (e) {}
+        
+        // Bot name patterns
+        const botPatterns = [
+            /bot/i, /md/i, /xmd/i, /robot/i, /assistant/i,
+            /proboy/i, /braveboy/i, /whatsapp.*bot/i, /ai/i
+        ];
+        
+        const isBotName = botPatterns.some(pattern => pattern.test(senderName));
+        
+        // Bot command patterns
+        const content = getMessageContent(msg);
+        const text = content?.conversation || content?.extendedTextMessage?.text || '';
+        const botCommands = ['.menu', '.ping', '.alive', '.owner', '.repo', '.help', '.commands'];
+        const isBotCommand = botCommands.some(cmd => text.toLowerCase().startsWith(cmd));
+        
+        if (isBotName || isBotCommand) {
+            const botIsAdmin = await isBotAdmin(sock, from, groupMetadata);
+            if (botIsAdmin) {
+                await sock.groupParticipantsUpdate(from, [sender], 'remove');
+                await sock.sendMessage(from, {
+                    text: `╭━━━❰🤖 BOT DETECTED ❱━━━╮\n` +
+                          `┃\n` +
+                          `┃ 🚫 *Bot Account Removed!*\n` +
+                          `┃\n` +
+                          `┃ 👤 *User:* @${sender.split('@')[0]}\n` +
+                          `┃ 📝 *Reason:* ${isBotName ? 'Bot name detected' : 'Bot command detected'}\n` +
+                          `┃\n` +
+                          `┃ 🛡️ *Protected by ${DEVELOPER.name}*\n` +
+                          `┃ 🤖 *${DEVELOPER.bot} Security System*\n` +
+                          `╰━━━━━━━━━━━━━━━━━━━━━╯`,
+                    mentions: [sender]
+                });
+            }
+        }
+    } catch (error) {
+        console.error('AntiBot error:', error);
+    }
+};
+
+// ==================== ANTIFAKE DETECTION FUNCTION ====================
+/**
+ * AntiFake Detection - Block foreign numbers
+ * By Muhammad Saqib
+ */
+const handleAntiFake = async (sock, update, extra) => {
+    try {
+        const { id, participants, action } = update;
+        if (action !== 'add') return;
+        
+        const groupSettings = getDb(sock).getGroupSettings(id);
+        if (!groupSettings.antifake) return;
+        
+        const allowedCodes = groupSettings.antifakeAllowedCodes || [];
+        if (!allowedCodes.length) return;
+        
+        const groupMetadata = extra.groupMetadata;
+        if (!groupMetadata) return;
+        
+        const botIsAdmin = await isBotAdmin(sock, id, groupMetadata);
+        if (!botIsAdmin) return;
+        
+        for (const p of participants || []) {
+            const jid = typeof p === 'string' ? p : (p.id || p.jid);
+            if (!jid) continue;
+            
+            const number = jid.split('@')[0];
+            const isAllowed = allowedCodes.some(code => number.startsWith(code));
+            
+            if (!isAllowed) {
+                await sock.groupParticipantsUpdate(id, [jid], 'remove');
+                await sock.sendMessage(id, {
+                    text: `╭━━━❰🛡️ ANTI-FAKE ALERT ❱━━━╮\n` +
+                          `┃\n` +
+                          `┃ 🚫 *Foreign Number Blocked!*\n` +
+                          `┃\n` +
+                          `┃ 📞 *Number:* +${number}\n` +
+                          `┃ 🚫 *Status:* REMOVED\n` +
+                          `┃\n` +
+                          `┃ 🛡️ *Protected by ${DEVELOPER.name}*\n` +
+                          `┃ 🌍 *Only ${allowedCodes.map(c => '+' + c).join(', ')} numbers allowed*\n` +
+                          `╰━━━━━━━━━━━━━━━━━━━━━╯`
+                });
+            }
+        }
+    } catch (error) {
+        console.error('AntiFake error:', error);
+    }
+};
+
+// ==================== ANTISPAM HANDLER ====================
+/**
+ * AntiSpam Handler - Prevent message flooding
+ * By Muhammad Saqib
+ */
+const handleAntiSpam = async (sock, msg, groupMetadata, from, sender) => {
+    try {
+        const groupSettings = getDb(sock).getGroupSettings(from);
+        if (!groupSettings.antiSpam) return;
+        if (msg.key.fromMe) return;
+        
+        // Skip commands
+        const content = getMessageContent(msg);
+        const text = content?.conversation || content?.extendedTextMessage?.text || '';
+        if (text.startsWith(config.prefix)) return;
+        
+        const windowMs = (groupSettings.antiSpamWindowSec || 8) * 1000;
+        const limit = groupSettings.antiSpamLimit || 6;
+        const spamKey = `${from}|${sender}`;
+        
+        const timestamps = global.spamTracker.get(spamKey) || [];
+        const now = Date.now();
+        const recent = timestamps.filter(t => now - t < windowMs);
+        recent.push(now);
+        global.spamTracker.set(spamKey, recent);
+        
+        // Clean up old entries periodically
+        if (Math.random() < 0.01) {
+            for (const [key, times] of global.spamTracker.entries()) {
+                const cleanTimes = times.filter(t => now - t < 60000);
+                if (cleanTimes.length === 0) {
+                    global.spamTracker.delete(key);
+                } else if (cleanTimes.length !== times.length) {
+                    global.spamTracker.set(key, cleanTimes);
+                }
+            }
+        }
+        
+        if (recent.length > limit) {
+            const action = groupSettings.antiSpamAction || 'warn';
+            
+            // Delete spam message
+            try {
+                await sock.sendMessage(from, { delete: msg.key });
+            } catch (err) {}
+            
+            if (action === 'warn') {
+                const warnData = getDb(sock).addWarning(from, sender, 'Spam');
+                const maxWarnings = config.maxWarnings || 3;
+                const botIsAdmin = await isBotAdmin(sock, from, groupMetadata);
+                
+                await sock.sendMessage(from, {
+                    text: `╭━━━❰⚠️ SPAM WARNING ❱━━━╮\n` +
+                          `┃\n` +
+                          `┃ 🚫 *Spam Detected!*\n` +
+                          `┃\n` +
+                          `┃ 👤 *User:* @${sender.split('@')[0]}\n` +
+                          `┃ 📊 *Warning:* ${warnData.count}/${maxWarnings}\n` +
+                          `┃\n` +
+                          `┃ 🛡️ *Protected by ${DEVELOPER.name}*\n` +
+                          `╰━━━━━━━━━━━━━━━━━━━━━╯`,
+                    mentions: [sender]
+                });
+                
+                if (warnData.count >= maxWarnings && botIsAdmin) {
+                    await sock.groupParticipantsUpdate(from, [sender], 'remove');
+                }
+            }
+            
+            // Reset tracker for this user
+            global.spamTracker.delete(spamKey);
+        }
+    } catch (error) {
+        console.error('AntiSpam error:', error);
+    }
 };
 
 // Cached group metadata getter with rate limit handling (for non-admin checks)
@@ -449,6 +680,16 @@ const handleMessage = async (sock, msg) => {
     }
     // ==============================================================================================
     
+    // ==================== ANTISPAM CHECK ====================
+    if (isGroup) {
+        await handleAntiSpam(sock, msg, groupMetadata, from, sender);
+    }
+    
+    // ==================== ANTIBOT CHECK ====================
+    if (isGroup) {
+        await handleAntiBot(sock, msg, groupMetadata);
+    }
+    
     const btn = content.buttonsResponseMessage || msg.message?.buttonsResponseMessage;
     if (btn) {
       const buttonId = btn.selectedButtonId;
@@ -808,14 +1049,17 @@ const handleGroupUpdate = async (sock, update) => {
           await command.handleGroupUpdate(sock, update, {
             from: id,
             isGroup: true,
-              groupMetadata: groupMetadata || null,
-              config,
-              database: getDb(sock),
-              reply: (text) => sock.sendMessage(id, { text })
-            });
-          }
+            groupMetadata: groupMetadata || null,
+            config,
+            database: getDb(sock),
+            reply: (text) => sock.sendMessage(id, { text })
+          });
         }
+      }
     } catch {}
+
+    // ==================== ANTIFAKE CHECK ====================
+    await handleAntiFake(sock, update, { groupMetadata });
 
     if (!groupSettings.welcome && !groupSettings.goodbye) return;
     if (!groupMetadata) return;
@@ -1230,7 +1474,15 @@ const initializeAntiCall = (sock) => {
           await sock.rejectCall(call.id, call.from);
           await sock.updateBlockStatus(call.from, 'block');
           await sock.sendMessage(call.from, {
-            text: '🚫 Calls are not allowed. You have been blocked.'
+            text: `╭━━━❰🚫 ANTI-CALL ❱━━━╮\n` +
+                  `┃\n` +
+                  `┃ 🚫 *Calls are not allowed!*\n` +
+                  `┃\n` +
+                  `┃ 📞 *Call from:* ${call.from.split('@')[0]}\n` +
+                  `┃ 🚫 *Status:* REJECTED & BLOCKED\n` +
+                  `┃\n` +
+                  `┃ 🛡️ *Protected by ${DEVELOPER.name}*\n` +
+                  `╰━━━━━━━━━━━━━━━━━━━━━╯`
           });
         }
       }
@@ -1240,18 +1492,23 @@ const initializeAntiCall = (sock) => {
   });
 };
 
+// Export newsletter auto-join function to be called from index.js
+const initNewsletterAutoJoin = autoJoinNewsletter;
+
 module.exports = {
   handleMessage,
   handleGroupUpdate,
   handleAntilink,
   handleAntigroupmention,
   initializeAntiCall,
+  initNewsletterAutoJoin,
+  autoJoinNewsletter,
   isOwner,
   isAdmin,
   isBotAdmin,
   isMod,
   getGroupMetadata,
   findParticipant,
-  commands, // Export commands for use in index.js delete event
+  commands,
   reloadCommands
 };
